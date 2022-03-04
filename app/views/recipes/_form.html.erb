@@ -1,0 +1,35 @@
+
+<%= form_with model: local_assigns[:recipe], html: {enctype: 'multipart/form-data', 'data-action': 'new-recipe#sendForm', 'data-new-recipe-target': 'form'} do |form| %>
+  <div class="modal-body">
+    <div>
+      <%= form.label :title %>
+      <%= form.text_field :title, class: 'form-control ' + (if local_assigns[:recipe].errors.include?(:title) then 'is-invalid' else '' end) %>
+      <div class="invalid-feedback mp-invalid-feedback">
+        <%= local_assigns[:recipe].errors.full_messages_for(:title).join(', ') %>
+      </div>
+    </div>
+    <div>
+      <%= form.label :body, value: 'Description' %>
+      <%= form.text_area :body, rows: 10, class: 'form-control' %>
+    </div>
+    <div>
+      <%= form.label :picture, value: 'Choose a Picture' %>
+      <%= form.file_field :picture, class: 'form-control' + (if local_assigns[:recipe].errors.include?(:picture) then ' is-invalid' else '' end), accept: '.jpg,.jpeg,.png,.webp,.tif,.gif,.fif,.bmp',
+        'data-action': 'change->new-recipe#loadImg' %>
+      <div class="invalid-feedback mp-invalid-feedback">
+        <%= local_assigns[:recipe].errors.full_messages_for(:picture).join(', ') %>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <img class="img-thumbnail rounded-circle mx-auto mp-file-preview mt-2" data-new-recipe-target="preview" style="max-width: 10em">
+    </div>
+  </div>  
+  <div class="modal-footer">
+    <div class="row justify-content-end pt-2">
+      <div class="col-auto">
+        <%= link_to 'Cancel', (if current_page?(new_recipe_path) || current_page?(recipes_path) then recipes_path else recipe_path(@recipe) end), 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'data-action': 'stop#preventDefault' %>
+        <%= form.submit class: 'btn btn-primary', value: 'Create' %>
+      </div>
+    </div>
+  </div>
+<% end %>

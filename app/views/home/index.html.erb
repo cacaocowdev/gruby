@@ -1,0 +1,139 @@
+<% content_for :navbar do %>
+  <%= render 'layouts/navbar' %>
+<% end %>
+
+<div class="container-fluid p-5">
+  <div class="row gy-5">
+    <div class="col col-lg-6 col-12">
+      <h3>Mealplan</h3>
+      <div class="card-group">
+        <div class="card hm-card">
+          <div class="card-header">
+            Today's meal
+          </div>
+          <% if not @todays_meals.empty? %>
+            <% @todays_meals.each do |meal| %>
+              <% if meal.recipe.picture.attached? %>
+                <%= image_tag meal.recipe.picture, class: 'card-img-top mt-2 img-thumbnail p-1 m-auto rounded-circle w-50', style: 'aspect-ratio: 1' %>
+              <% else %>
+                <%= image_tag "default-meal-2.svg", class: 'card-img-top mt-2 img-thumbnail p-1 m-auto rounded-circle w-50', style: 'aspect-ratio: 1' %>
+              <% end%>
+              <div class="card-body">
+                <div class="card-title mp-card-title-overflow" title="<%= meal.recipe.title%>">
+                  <%= meal.recipe.title %>
+                </div>
+                <div class="card-footer mp-card-embedded-footer">
+                  <div class="col-auto text-center mx-auto">
+                    <%= link_to(recipe_path(meal.recipe), class: 'link-secondary mp-card-actions', 'data-bs-toggle': "tooltip", 'data-bs-placement': "bottom", title: "Show") do %>
+                      <i class="bi bi-eye m-auto"></i>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="card-body">
+              <div class="card-text">
+                <span>No meal planned for today</span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="card hm-card">
+          <div class="card-header">
+            Tomorrow's meal
+          </div>
+          <% if not @tomorrows_meals.empty? %>
+            <% @tomorrows_meals.each do |meal| %>
+              <% if meal.recipe.picture.attached? %>
+                <%= image_tag meal.recipe.picture, class: 'card-img-top mt-2 img-thumbnail p-1 m-auto rounded-circle w-50', style: 'aspect-ratio: 1' %>
+              <% else %>
+                <%= image_tag "default-meal-2.svg", class: 'card-img-top mt-2 img-thumbnail p-1 m-auto rounded-circle w-50', style: 'aspect-ratio: 1' %>
+              <% end%>
+              <div class="card-body">
+                <div class="card-title mp-card-title-overflow" title="<%= meal.recipe.title%>">
+                  <%= meal.recipe.title %>
+                </div>
+                <div class="card-footer mp-card-embedded-footer">
+                  <div class="col-auto text-center mx-auto">
+                    <%= link_to(recipe_path(meal.recipe), class: 'link-secondary mp-card-actions', 'data-bs-toggle': "tooltip", 'data-bs-placement': "bottom", title: "Show") do %>
+                      <i class="bi bi-eye m-auto"></i>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="card-body">
+              <div class="card-text">
+                <span>No meal planned for tomorrow</span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col col-lg-6 col-12">
+      <h3>Todos</h3>
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <th>Task</td>
+          <th>Due</td>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2" class="text-center fst-italic">No tasks</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col">
+      <div class="row justify-content-around">
+        <div class="col">
+          <h3>Finances</h3>
+        </div>
+        <div class="col col-auto pb-1">
+          <div class="btn-group" role=group">
+            <a type="button" class="btn btn-outline-primary">Today</a>
+            <a type="button" class="btn btn-outline-primary active">Week</a>
+            <a type="button" class="btn btn-outline-primary">Month</a>
+            <a type="button" class="btn btn-outline-primary">Year</a>
+            <a type="button" class="btn btn-outline-primary">All</a>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <th>Category</th>
+          <th>Amount</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Living</td>
+            <td>600 €</td>
+          </tr>
+          <tr>
+            <td>Food & Beverages</td>
+            <td>300 €</td>
+          </tr>
+          <tr>
+            <td>Hygiene</td>
+            <td>80 €</td>
+          </tr>
+          <tr>
+            <td>Mobility</td>
+            <td>180 €</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><b>Total:</b></td>
+            <td><b>1260 €</b></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

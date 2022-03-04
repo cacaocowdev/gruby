@@ -1,0 +1,19 @@
+<% content_for :navbar do %>
+  <%= render 'layouts/navbar', active: 'ingredients'%>
+<% end %>
+
+<div class="container p-4">
+  <h3>New Ingredient</h3>
+  <%= form_with model: @ingredient do |form| %>
+    <div class="modal-body">
+      <div>
+        <%= form.label :name %>
+        <%= form.text_field :name, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= link_to 'Cancel', ingredients_path, class: 'btn btn-secondary' %>
+      <%= form.submit class: 'btn btn-primary', value: 'Create' %>
+    </div>
+  <% end %>
+</div>

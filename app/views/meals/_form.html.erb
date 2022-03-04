@@ -1,0 +1,30 @@
+<%= form_with model: @meal do |form| %>
+  <div class="modal-body">
+    <div class="row">
+        <%= form.label :day %>
+      <div class="col input-group">
+        <%= form.date_field :day, class: 'form-control' %>
+        <i class="bi bi-calendar input-group-text"></i>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <%= form.label :recipe%>
+        <%= form.text_field :recipe, value: (@meal.recipe.title unless @meal.recipe.nil?), class: 'form-control', list: 'recipes-list', autocomplete: 'off' %>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row justify-content-end pt-2">
+      <div class="col-auto">
+        <%= link_to 'Cancel', meals_path, 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'aria-label': 'Close', 'data-controller': 'stop', 'data-action': 'stop#preventDefault' %>
+        <%= form.submit value: (if @meal.id.nil? then 'Create' else 'Save' end), class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+  <datalist id="recipes-list">
+    <% @recipes.each do |recipe| %>
+      <option value="<%= recipe.title%>"></option>
+    <% end %>
+  </datalist>
+<% end %>

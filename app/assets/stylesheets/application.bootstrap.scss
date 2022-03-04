@@ -1,0 +1,79 @@
+$enable-rounded: false;
+$enable-negative-margins: true;
+$primary: #3d0a91;
+$secondary: rgb(8, 121, 144);
+
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+.mp-card-actions {
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+.mp-card-embedded-footer {
+    margin: 0 (-$card-spacer-x);
+}
+
+.mp-card-title-overflow {
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    min-height: 3em;
+}
+
+.mp-card {
+    height: 100%;
+    > .card-body {
+        &:last-child {
+            padding-bottom: 0;
+        }
+    }
+}
+
+.hm-card {
+    > .card-body {
+        &:last-child {
+            padding-bottom: 0;
+        }
+    }
+}
+
+@include media-breakpoint-only("md") {
+    .mp-card-group .col .mp-card {
+        border-right-width: 0px;
+      }
+      
+      .mp-card-group .col:nth-child(4) .mp-card {
+        border-right-width: 1px;
+      }
+      
+      .mp-card-group .col:nth-child(7) .mp-card {
+        border-right-width: 1px;
+      }
+}
+
+@include media-breakpoint-up("xl") {
+    .row-cols-xl-7 {
+        @include row-cols(7);
+    }
+    .mp-card-group .col .mp-card {
+        border-right-width: 0px;
+    }
+      
+    .mp-card-group .col:nth-child(7) .mp-card {
+      border-right-width: 1px;
+    }
+}
+
+.field_with_errors ~ .mp-invalid-feedback {
+    display: block;
+}
+
+.mp-file-preview {
+    display: none;
+}
+.mp-file-preview[src] {
+    display: block;
+}

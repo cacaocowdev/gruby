@@ -1,0 +1,15 @@
+<%= form_with model: @recipe do |form| %>
+  <div class="modal-body">
+    <%= form.label :ingredients, value: 'Ingredient' %>
+    <%= form.text_field :ingredients, name: 'recipe[ingredients][]' ,class: "form-control combobox", list: "ingredient-list", autocomplete: "off", value: ''%>
+    <datalist id="ingredient-list" data-new-recipe-target="selects">
+      <% @ingredients.each do |ing|  %>
+        <option value="<%= ing.name %>"></option>
+      <% end %>
+    </datalist>
+  </div>
+  <div class="modal-footer">
+    <%= link_to 'Cancel', recipe_path(@recipe), class: 'btn btn-secondary' %>
+    <%= form.submit class: 'btn btn-primary', value: 'Add' %>
+  </div>
+<% end %>

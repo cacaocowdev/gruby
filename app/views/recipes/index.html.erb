@@ -1,0 +1,70 @@
+<% content_for :navbar do %>
+  <%= render "layouts/navbar", active: "recipes"%>
+<% end %>
+
+<div class="px-2">
+  <div class="container-fluid" data-controller="recipe stop">
+    <div class="row">
+      <div class="col col-md-8 col-12">
+        <div class="row py-2 align-items-center justify-content-around">
+          <div class="col">
+            <h1 class="py-2">Recipes</h1>
+          </div>
+          <div class="col col-auto">
+            <%= link_to new_recipe_path, class: 'btn btn-primary', 'data-bs-toggle': 'modal', 'data-bs-target': '#new-recipe-modal', 'data-action': 'stop#preventDefault' do %>
+              <i class="bi bi-plus"></i> Add new recipe
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-md-8 col-12">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Recipe</th>
+              <th class="w-25" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @recipes.each do |recipe| %>
+              <tr data-action="click->recipe#fetchRecipe" data-recipe-id-param="<%= recipe.id %>" data-recipe-url-param="<%= recipe_path(recipe, {inline: true}) %>">
+                <td class="align-middle">
+                  <%= recipe.title%>
+                </td>
+                <td>
+                  <div class="row align-items-center">
+                    <div class="col col-auto ">
+                      <%= link_to(recipe_path(recipe), class: "link-secondary text-center", 'data-bs-toggle': "tooltip", 'data-bs-placement': "bottom", title: "Show", 'data-action': 'stop#stopPropagation') do %>
+                        <i class="bi bi-eye"></i>
+                      <% end %>
+                    </div>
+                    <div class="col col-auto">
+                      <%= form_with method: :delete, url: recipe_path(recipe) do |from| %>
+                        <button
+                          type="submit" class="btn btn-link link-danger" 
+                          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"
+                          data-controller="confirm" data-action="confirm#confirm recipe#stop" data-confirm-confirm-value="Sure?"
+                        >
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="col col-md-4" data-recipe-target="recipe">
+        <% if not @recipe.nil? %>
+          <%= render 'show-inline' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render  "form-dialog", recipe: @new_recipe %>

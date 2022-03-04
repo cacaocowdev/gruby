@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Gruby</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to "Mealplan", meals_path, class: "nav-link" + (if local_assigns[:active] == "meals" then " active" else "" end)%>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Recipes", recipes_path, class: "nav-link" + (if local_assigns[:active] == "recipes" then " active" else "" end)%>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Ingredients", ingredients_path, class: "nav-link" + (if local_assigns[:active] == "ingredients" then " active" else "" end) %>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Todos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Finances</a>
+        </li>
+      </ul>
+    </div>
+    <div class="d-flex flex-items-center">
+      <% if user_signed_in? %>
+        <%= form_with method: :delete, url: destroy_user_session_path do |form| %>
+          <button type="submit"class="btn btn-outline-light">Logout</a>
+        <% end %>
+      <% else %>
+        <%= link_to "Log In", new_user_session_path,  class: "btn btn-outline-light" %>
+      <% end %>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>

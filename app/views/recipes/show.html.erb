@@ -1,0 +1,100 @@
+<% content_for :navbar do %>
+  <%= render "layouts/navbar", active: "recipes"%>
+<% end %>
+<div class="container-fluid p-2">
+  <div class="row justify-content-evenly">
+    <div class="col col-md-6 col-12">
+      <div class="card">
+        <% if @recipe.picture.attached? %>
+          <%= image_tag @recipe.picture, class: 'card-img-top', style: 'max-height: 18rem' %>
+          <div class="shadow bg-light w-75 mx-auto mt-n4">
+            <h1 class="card-title m-3 float-start">
+              <%= @recipe.title%>
+            </h1>
+            <h1 class="float-end m-3">
+              <%= link_to edit_recipe_path(@recipe), class: 'link-secondary',
+                'data-bs-toggle': 'modal', 'data-bs-target': '#new-recipe-modal',
+                'data-controll': 'stop', 'data-action': 'stop#preventDefault' do %>
+                <i class="bi bi-pencil-square text-secondary"></i>
+              <% end %>
+            </h1>
+          </div>
+        <% else %>
+          <div class="w-75 mx-auto text-center">
+            <h1 class="card-title p-2 d-inline-block">
+              <%= @recipe.title%>
+            </h1>
+            <h1 class="d-inline-block m-3">
+              <%= link_to edit_recipe_path(@recipe), class: 'link-secondary',
+                'data-bs-toggle': 'modal', 'data-bs-target': '#new-recipe-modal',
+                'data-controll': 'stop', 'data-action': 'stop#preventDefault' do %>
+                <i class="bi bi-pencil-square text-secondary"></i>
+              <% end %>
+            </h1>
+          </div>
+        <% end %>
+        <div class="card-body">
+          <div class="card-text">
+            <%== markdown(@recipe.body) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-md-5 col-12">
+      <%= link_to add_to_recipe_url(@recipe), class: 'btn btn-primary my-2', 'data-bs-toggle': 'modal', 'data-bs-target': '#new-ingredient-modal',
+        'data-controller': 'stop', 'data-action': 'stop#preventDefault' do %>
+        <i class="bi bi-plus"></i>Add ingredient
+      <% end %>
+      <table class="table table-striped">
+        <tbody>
+          <% @recipe.ingredients.each do |ing| %>
+            <tr>
+              <td class="w-75 align-middle">
+                <%= ing.name %>
+              </td>
+              <td>
+                <%= form_with method: "PUT", model: @ingredient do |form|%>
+                  <select class="visually-hidden" name="recipe[ingredientsRemove][]">
+                    <option value="<%= ing.id %>" hidden selected><%= ing.name %></option>
+                  </select>
+                  <button type="submit" class="btn btn-link link-danger"
+                    data-controller="confirm" data-action="confirm#confirm" data-confirm-confirm-value="Sure?"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal" id="new-ingredient-modal" tabindex="-1" data-controller="new-recipe" data-new-recipe-url-value="/ingredients/sample">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New Recipe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_with method: "PUT", model: @ingredient do |form| %>
+        <div class="modal-body">
+          <%= form.label :ingredients, value: 'Ingredient' %>
+          <%= form.text_field :ingredients, class: "form-control combobox", name: "recipe[ingredients][]", list: "ingredient-list", autocomplete: "off" %>
+          <datalist id="ingredient-list" data-new-recipe-target="selects">
+            <% @ingredients.each do |ing|  %>
+              <option value="<%= ing.name %>"></option>
+            <% end %>
+          </datalist>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <%= form.submit class: 'btn btn-primary', value: 'Add' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render "form-dialog", recipe: @recipe %>

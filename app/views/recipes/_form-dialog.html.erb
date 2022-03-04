@@ -1,0 +1,13 @@
+<div class="modal" id="new-recipe-modal" tabindex="-1" data-controller="new-recipe stop" data-new-recipe-url-value="/ingredients/sample">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"> 
+        <h5 class="modal-title">New Recipe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div data-new-recipe-target="form-container">
+         <%= render 'form', recipe: local_assigns[:recipe] %>
+      </div>
+    </div>
+  </div>
+</div>
