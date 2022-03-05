@@ -97,7 +97,12 @@ class RecipesController < ApplicationController
             @recipe.body = recipe_params[:body]
         end
 
-        if @recipe.valid_with_picture?(params[:recipe][:picture])
+        unless @recipe.valid_with_picture?(params[:recipe][:picture])
+            head :bad_request
+            return
+        end
+
+        unless params[:recipe][:picture].nil?
             if @recipe.picture.attached?
                 @recipe.picture.purge
             end
