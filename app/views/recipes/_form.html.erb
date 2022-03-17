@@ -27,8 +27,8 @@
   <div class="modal-footer">
     <div class="row justify-content-end pt-2">
       <div class="col-auto">
-        <%= link_to 'Cancel', (if current_page?(new_recipe_path) || current_page?(recipes_path) then recipes_path else recipe_path(@recipe) end), 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'data-action': 'stop#preventDefault' %>
-        <%= form.submit class: 'btn btn-primary', value: 'Create' %>
+        <%= link_to 'Cancel', (if local_assigns[:recipe].id.nil? then recipes_path else recipe_path(@recipe) end), 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'data-action': 'stop#preventDefault' %>
+        <%= form.submit class: 'btn btn-primary', value: (if local_assigns[:recipe].id.nil? then 'Create' else 'Save' end) %>
       </div>
     </div>
   </div>
