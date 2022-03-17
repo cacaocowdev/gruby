@@ -7,10 +7,8 @@ class Recipe < ApplicationRecord
     def valid_with_picture? (picture)
         val = valid?
         if picture.nil?
-            puts "picture was nil"
             return val
         end
-        puts "picture wasnt nil"
         if  picture.size < 1.kilobyte
             errors.add(:picture, "is too small (<1Kb)")
         end
@@ -22,11 +20,15 @@ class Recipe < ApplicationRecord
         end
         return !errors.include?(:picture) && val
     end
+
+    def title=(value)
+        self[:title] = value.squish
+    end
     
     def valid_mimes
         %w(image/jpeg image/jpg image/png image/webp image/gif image/tiff image/x-tiff image/fif image/bmp image/x-windows-bmp)
     end
-    def extensions
+    def self.extensions
         {
             'image/jpeg' => '.jpeg',
             'image/jpg' => '.jpg',

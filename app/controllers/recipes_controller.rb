@@ -1,6 +1,6 @@
 class RecipesController < ApplicationController
     def index
-        @recipes = Recipe.all
+        @recipes = Recipe.all.order("LOWER(title)")
         if not params[:id].nil?
             @recipe = Recipe.find(params[:id])
         end
@@ -55,7 +55,10 @@ class RecipesController < ApplicationController
         end
 
         if @recipe.save
-            @recipe.picture.attach(picture)
+            unless picture.nil?
+                @recipe.picture.attach(picture)
+                picture.original_filename = Random.alphanumeric + Recipe.extensions[picture.content_type]
+            end
             redirect_to recipes_path(id: @recipe.id) 
         else
             render 'edit', layout: inline?, status: :bad_request
@@ -97,16 +100,18 @@ class RecipesController < ApplicationController
             @recipe.body = recipe_params[:body]
         end
 
-        unless @recipe.valid_with_picture?(params[:recipe][:picture])
+        picture = params[:recipe][:picture]
+        unless @recipe.valid_with_picture?(picture)
             head :bad_request
             return
         end
 
-        unless params[:recipe][:picture].nil?
+        unless picture.nil?
             if @recipe.picture.attached?
                 @recipe.picture.purge
             end
-            @recipe.picture.attach(params[:recipe][:picture])
+            picture.original_filename = Random.alphanumeric + Recipe.extensions[picture.content_type]
+            @recipe.picture.attach(picture)
         end
 
         @recipe.save
