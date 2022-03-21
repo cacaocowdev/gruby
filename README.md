@@ -1,28 +1,36 @@
 # Gruby
 
-### Todo write this file
+Gruby aims to be a simple household app that helps you plan your meals, do your tasks and keep track of your finances
 
-# README
+## Deployment (WIP)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+gruby can easily be deployed via docker. It is recommended to use a proxy like nginx or apache.
 
-Things you may want to cover:
+1. Edit the config as needed, set up your database (gruby will be tested with sqlite3 and postgresql)
+2. Setup secrets and master keys
+2. Build docker image (`docker build -t gruby:latest .`)
+3. Run the docker image
 
-* Ruby version
+(It is not quite that easy, but you will figure it out)
 
-* System dependencies
+## Development
 
-* Configuration
+The repository provides a dockerfile for a development environment.
+Go ahead and build the docker image
 
-* Database creation
+```
+docker build -t gruby-dev -f Dockerfile.dev
+```
 
-* Database initialization
+and start the container
 
-* How to run the test suite
+```
+docker run --rm --volume "$PWD:/gruby" gruby-dev rails db:migrate
+docker run --rm -i -t -p "3000:3000" --volume "$PWD:/gruby" gruby-dev ./bin/dev
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+and off you go. Grab your favorite text editor, make some changes and browse to http://127.0.0.1:3000 to see the results. No frisky setup of dependencies needed (aside of docker)
 
-* Deployment instructions
+# License
 
-* ...
+This code is provided as is, without warranty of any kind. Be aware of the license of dependencies.
