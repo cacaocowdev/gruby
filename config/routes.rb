@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :recipes
   resources :ingredients
   resources :meals
+  resources :transactions
   get 'recipes/:id/add', to: 'recipes#add', as: 'add_to_recipe'
 
 end

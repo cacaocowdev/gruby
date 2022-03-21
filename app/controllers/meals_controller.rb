@@ -24,7 +24,7 @@ class MealsController < ApplicationController
         end
 
         if inline?
-            render '_form'
+            render '_form', layout: false
         else
             render "edit"
         end
@@ -45,7 +45,7 @@ class MealsController < ApplicationController
         @meal = Meal.find(params[:id])
 
         if inline?
-            render '_form'
+            render '_form', layout: false
         else
             render "edit"
         end

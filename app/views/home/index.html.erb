@@ -96,41 +96,41 @@
         </div>
         <div class="col col-auto pb-1">
           <div class="btn-group" role=group">
-            <a type="button" class="btn btn-outline-primary">Today</a>
-            <a type="button" class="btn btn-outline-primary active">Week</a>
-            <a type="button" class="btn btn-outline-primary">Month</a>
-            <a type="button" class="btn btn-outline-primary">Year</a>
-            <a type="button" class="btn btn-outline-primary">All</a>
+            <%= link_to 'Today', root_path(finances: 'day'), class: 'btn btn-outline-primary '  + (if @finances_selected == 'day' then 'active' else '' end) %>
+            <%= link_to 'Week', root_path(finances: 'week'), class: 'btn btn-outline-primary '  + (if @finances_selected == 'week' then 'active' else '' end) %>
+            <%= link_to 'Month', root_path(finances: 'month'), class: 'btn btn-outline-primary '  + (if @finances_selected == 'month' then 'active' else '' end) %>
+            <%= link_to 'Year', root_path(finances: 'year'), class: 'btn btn-outline-primary '  + (if @finances_selected == 'year' then 'active' else '' end) %>
+            <%= link_to 'All', root_path(finances: 'all'), class: 'btn btn-outline-primary '  + (if @finances_selected == 'all' then 'active' else '' end) %>
           </div>
         </div>
       </div>
       <table class="table table-striped">
         <thead class="table-dark">
           <th>Category</th>
-          <th>Amount</th>
+          <th>Value</th>
         </thead>
         <tbody>
-          <tr>
-            <td>Living</td>
-            <td>600 €</td>
-          </tr>
-          <tr>
-            <td>Food & Beverages</td>
-            <td>300 €</td>
-          </tr>
-          <tr>
-            <td>Hygiene</td>
-            <td>80 €</td>
-          </tr>
-          <tr>
-            <td>Mobility</td>
-            <td>180 €</td>
-          </tr>
+          <% if @total.amount %>
+            <% @finances.each do |f| %>
+              <tr>
+                <td>
+                  <%= f.category %>
+                </td>
+                <td class="text-end">
+                  <%= '%.02f' % (f.amount / 100.0) %> €
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="2" class="text-center fst-italic">No Transactions</td>
+            </tr>
+          <% end %>
         </tbody>
         <tfoot>
           <tr>
             <td><b>Total:</b></td>
-            <td><b>1260 €</b></td>
+            <td class="text-end"><b><%= '%.02f' % (if @total.amount then @total.amount / 100.0 else '0.00' end) %> €</b></td>
           </tr>
         </tfoot>
       </table>

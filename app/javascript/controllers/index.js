@@ -21,3 +21,6 @@ application.register("recipe", RecipeController)
 
 import StopController from "./stop_controller.js"
 application.register("stop", StopController)
+
+import TransactionController from "./transaction_controller.js"
+application.register("transaction", TransactionController)

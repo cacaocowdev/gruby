@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: MyString
+  use: MyString
+  amount: 1
+  income: false
+  date: 2022-03-17
+
+two:
+  category: MyString
+  use: MyString
+  amount: 1
+  income: false
+  date: 2022-03-17

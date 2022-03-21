@@ -1,0 +1,59 @@
+<%= form_with model: @transaction do |form| %>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <div class="form-check form-check-inline">
+          <%= form.radio_button :income, true, class: 'form-check-input' %>
+          <%= form.label :income_true, "Income", class: 'form-check-label' %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= form.radio_button :income, false, class: 'form-check-input' %>
+          <%= form.label :income_false, "Expense", class: 'form-check-label' %>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <%= form.label :date %>
+      <div class="col input-group">
+        <%= form.date_field :date, class: 'form-control' %>
+        <i class="bi bi-calendar input-group-text"></i>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <%= form.label :category %>
+        <%= form.text_field :category, class: 'form-control', list: 'category-list', autocomplete: 'off' %>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <%= form.label :use %>
+        <%= form.text_field :use, class: 'form-control', list: 'use-list', autocomplete: 'off' %>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col">
+        <%= form.label :amount %>
+        <%= form.number_field :amount, value: ((@transaction.amount / 100.0) unless @transaction.amount.nil?), step: 0.01, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row justify-content-end pt-2">
+      <div class="col-auto">
+        <%= link_to 'Cancel', transactions_path, 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'aria-label': 'Close', 'data-controller': 'stop', 'data-action': 'stop#preventDefault' %>
+        <%= form.submit value: (if @transaction.id.nil? then 'Create' else 'Save' end), class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+  <datalist id="category-list">
+    <% @categories.each do |category| %>
+      <option value="<%= category %>"></option>
+    <% end %>
+  </datalist>
+  <datalist id="use-list">
+    <% @uses.each do |use| %>
+      <option value="<%= use %>"></option>
+    <% end %>
+  </datalist>
+<% end %>

@@ -1,0 +1,156 @@
+<% content_for :navbar do %>
+  <%= render "layouts/navbar", active: "finances"%>
+<% end %>
+
+<div class="px-2" data-controller="transaction stop">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-12">
+        <div class="row py-2 align-items-center justify-content-around">
+          <div class="col">
+            <h1 class="py-2">Finances</h1>
+          </div>
+          <div class="col col-auto">
+            <%= link_to new_transaction_path(income: true), class: 'btn btn-success', 'data-action': 'transaction#loadForm', 'data-transaction-title-param': 'New Transaction' do %>
+              <i class="bi bi-plus"></i> Add income 
+            <% end %>
+            <%= link_to new_transaction_path, class: 'btn btn-primary', 'data-action': 'transaction#loadForm', 'data-transaction-title-param': 'New Transaction' do %>
+              <i class="bi bi-plus"></i> Add expense
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <nav aria-label="Transaction paging">
+          <ul class="pagination">
+            <li class="page-item <%= if @page == 0 then 'disabled' end %>">
+              <%= link_to transactions_path(page: @page, size: @size), class: 'page-link', 'aria-label': 'Previous' do %>
+                <span aria-hidden="true">&laquo;</span>
+              <% end %>
+            </li>
+            <% @pagination.each do |p| %>
+              <li class="page-item <%= if p == @page+1 then 'active' end %>">
+                <% if p == '..' %>
+                  <span class="page-link">..</span>
+                <% else %>
+                  <%= link_to transactions_path(page: p, size: @size), class: 'page-link', 'aria-label': 'Previous' do %>
+                    <%= p %>
+                  <% end %>
+                <% end %>
+              </li>
+            <% end %>
+            <li class="page-item <%= if @page == @pages-1 then 'disabled' end %>">
+              <%= link_to transactions_path(page: @page+2, size: @size), class: 'page-link', 'aria-label': 'Next' do %>
+                <span aria-hidden="true">&raquo;</span>
+              <% end %>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-auto">
+        <%= form_with method: :get, action: transactions_path, class: 'd-flex' do |f| %>
+          <%= f.select 'page', 1..@pages, { selected: @page+1 }, class: 'form-select' %>
+          <%= f.select 'size', [10, 20, 50, 100, 200], { selected: @size.to_s }, class: 'form-select' %>
+          <%= f.submit '', value: 'Go', name: '', class: 'btn btn-secondary'%>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped">
+          <thead class="table-dark">
+            <th class="w-auto"><i class="bi bi-box-arrow-in-right"></i> / <i class="bi bi-box-arrow-left"></i></th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Use</th>
+            <th>Value</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <% @transactions.each do |t| %>
+              <tr>
+                <td class="align-middle">
+                  <% if t.income %>
+                    <i class="bi bi-box-arrow-in-right text-success"></i>
+                  <% else %>
+                    <i class="bi bi-box-arrow-left"></i>
+                  <% end %>
+                </td>
+                <td class="align-middle"><%= t.date %></td>
+                <td class="align-middle"><%= t.category %></td>
+                <td class="align-middle"><%= t.use %></td>
+                <td class="text-end align-middle"><%= "%.02f" % (t.amount / 100.0)%> €</td>
+                <td>
+                  <%= link_to edit_transaction_path(t), class: 'link-secondary d-inline-block',
+                    'data-bs-toggle': 'tooltip', 'data-bs-placement': 'bottom', title: 'Edit',
+                    'data-action': 'transaction#loadForm', 'data-transaction-title-param': 'Edit Transaction' do %>
+                    <i class="bi bi-pencil-square text-secondary align-middle"></i>
+                  <% end %>
+                  <%= form_with method: :delete, url: transaction_path(t, size: @size, page: @page+1), class: 'd-inline-block' do |from| %>
+                    <button
+                      type="submit" class="btn btn-link link-danger" 
+                      data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"
+                      data-controller="confirm" data-action="confirm#confirm recipe#stop" data-confirm-confirm-value="Sure?"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <nav aria-label="Transaction paging">
+          <ul class="pagination">
+            <li class="page-item <%= if @page == 0 then 'disabled' end %>">
+              <%= link_to transactions_path(page: @page, size: @size), class: 'page-link', 'aria-label': 'Previous' do %>
+                <span aria-hidden="true">&laquo;</span>
+              <% end %>
+            </li>
+            <% @pagination.each do |p| %>
+              <li class="page-item <%= if p == @page+1 then 'active' end %>">
+                <% if p == '..' %>
+                  <span class="page-link">..</span>
+                <% else %>
+                  <%= link_to transactions_path(page: p, size: @size), class: 'page-link', 'aria-label': 'Previous' do %>
+                    <%= p %>
+                  <% end %>
+                <% end %>
+              </li>
+            <% end %>
+            <li class="page-item <%= if @page == @pages-1 then 'disabled' end %>">
+              <%= link_to transactions_path(page: @page+2, size: @size), class: 'page-link', 'aria-label': 'Next' do %>
+                <span aria-hidden="true">&raquo;</span>
+              <% end %>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-auto">
+        <%= form_with method: :get, action: transactions_path, class: 'd-flex' do |f| %>
+          <%= f.select 'page', 1..@pages, { selected: @page+1 }, class: 'form-select' %>
+          <%= f.select 'size', [10, 20, 50, 100, 200], { selected: @size.to_s }, class: 'form-select' %>
+          <%= f.submit '', value: 'Go', name: '', class: 'btn btn-secondary'%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="transaction-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"> 
+          <h5 class="modal-title" data-transaction-target="title">New Transaction</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div data-transaction-target="dialog">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
