@@ -6,8 +6,8 @@ COPY . /gruby
 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
   && apt update \
-  && apt install -y sqlite3 nodejs \
+  && apt install -y sqlite3 postgresql-client nodejs \
   && npm install --global yarn \  
   && gem install bundler --version 2.3.6 \
-  && gem install foreman
+  && gem install foreman \
   && bundle install

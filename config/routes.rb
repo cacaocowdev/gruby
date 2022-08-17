@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
+  get 'transactions/statistics', to: 'finances#home', as: 'finances'
   resources :recipes
   resources :ingredients
   resources :meals

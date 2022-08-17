@@ -2,6 +2,15 @@
   <%= render "layouts/navbar", active: "finances"%>
 <% end %>
 
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <%= link_to 'Overview', transactions_path, class: 'nav-link active' %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Statistics', finances_path, class: 'nav-link' %>
+  </li>
+</ul>
+
 <div class="px-2" data-controller="transaction stop">
   <div class="container-fluid">
     <div class="row">

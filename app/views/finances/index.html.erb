@@ -1,0 +1,74 @@
+<% content_for :navbar do %>
+  <%= render 'layouts/navbar' %>
+<% end %>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <%= link_to 'Overview', transactions_path, class: 'nav-link' %>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Statistics', finances_path, class: 'nav-link active' %>
+  </li>
+</ul>
+
+<div class="container-fluid p-5" data-controller="statistic-chart" data-statistic-chart-group-value="<%= @group %>">
+
+  <canvas id="chart" data-statistic-chart-target="chart" width="400" height="200"></canvas>
+
+  <pre class="d-none" data-statistic-chart-target="data">
+    <%== @category_statistics.to_json %>
+  </pre>
+
+  <%= form_with method: :get, action: finances_path, class: 'd-flex' do |f| %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <%= f.select 'range', [['Month', 'month'], ['Year', 'year'], ['All', 'all']], { selected: @range }, class: 'form-select' %>
+      </div>
+      <div class="col">
+        <%= f.select 'transform', [['Normal', 'normal'], ['Inverted', 'inverted'], ['Absolute', 'absolute']], { selected: @transform }, class: 'form-select' %>
+      </div>
+      <div class="col">
+        <%= f.select 'group', [['Category', 'category'], ['Date', 'date']], { selected: @group }, class: 'form-select' %>
+      </div>
+      <div class="col">
+        <%= f.date_field 'start', {value: @start_timeframe, class: 'form-select'} %>
+      </div>
+      <div class="col">
+        <%= f.date_field 'end', {value: @end_timeframe, class: 'form-select'} %>
+      </div>
+      <div class="col-auto">
+        <%= f.submit '', value: 'Go', name: '', class: 'btn btn-secondary'%>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table table-striped">
+        <thead>
+          <th>#</th>
+          <% @categories.each do |t| %>
+            <th>
+              <%= check_box_tag 'category[]', t, @category_filter.include?(t), {:multiple => true, :class => 'form-check-input'}%>
+              <label class="form-check-label"><%= t %></label>
+            </th>
+          <% end %>
+          <th>Total</th>
+        </thead>
+        <tbody>
+          <% @dates.each do |d| %>
+            <tr>
+              <td><%= d %></td>
+              <% @categories.each do |c| %>
+                <td class="text-end">
+                  <% test = @category_statistics.find{ |s| s.dupe == d && s.category == c } %><%= if test.nil? then '0.00' else test.amount_fmt end %>
+                   €</td>
+              <% end %>
+              <td class="text-end"><%= @total_statistics.find{ |s| s.dupe == d }.amount_fmt %> €</td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </div>
+    </div>
+  <% end %>
+</div>

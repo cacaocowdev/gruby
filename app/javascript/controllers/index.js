@@ -19,6 +19,9 @@ application.register("new-recipe", NewRecipeController)
 import RecipeController from "./recipe_controller.js"
 application.register("recipe", RecipeController)
 
+import StatisticChartController from "./statistic_chart_controller.js"
+application.register("statistic-chart", StatisticChartController)
+
 import StopController from "./stop_controller.js"
 application.register("stop", StopController)
 

@@ -117,7 +117,7 @@
                   <%= f.category %>
                 </td>
                 <td class="text-end">
-                  <%= '%.02f' % (f.amount / 100.0) %> €
+                  <%= f.amount_fmt %> €
                 </td>
               </tr>
             <% end %>
@@ -130,7 +130,7 @@
         <tfoot>
           <tr>
             <td><b>Total:</b></td>
-            <td class="text-end"><b><%= '%.02f' % (if @total.amount then @total.amount / 100.0 else '0.00' end) %> €</b></td>
+            <td class="text-end"><b><%= @total.amount_fmt %> €</b></td>
           </tr>
         </tfoot>
       </table>
