@@ -10,7 +10,6 @@ class RecipesController < ApplicationController
 
     def show
         @recipe = Recipe.find(params[:id])
-        @ingredients = Ingredient.all
 
         if params[:inline]
             render '_show-inline'
@@ -31,7 +30,6 @@ class RecipesController < ApplicationController
 
     def add
         @recipe = Recipe.find(params[:id])
-        @ingredients = Ingredient.all
 
         render 'add'
     end
@@ -80,18 +78,6 @@ class RecipesController < ApplicationController
 
         @recipe = Recipe.find(params[:id])
 
-        unless recipe_params[:ingredients].nil?
-            recipe_params[:ingredients].each do |ingredient|
-                @recipe.ingredients << Ingredient.where(name: ingredient).first
-            end
-        end
-
-        unless recipe_params[:ingredientsRemove].nil?
-            recipe_params[:ingredientsRemove].each do |ingredient_id|
-                @recipe.ingredients.delete(Ingredient.find(ingredient_id))
-            end
-        end
-
         unless recipe_params[:title].nil?
             @recipe.title = recipe_params[:title]
         end
@@ -120,6 +106,6 @@ class RecipesController < ApplicationController
 
     private
         def recipe_params
-            params.require(:recipe).permit(:title, :body, :picture, ingredients: [], ingredientsRemove: [])
+            params.require(:recipe).permit(:title, :body, :picture)
         end
 end

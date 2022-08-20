@@ -13,17 +13,9 @@
       <% if @recipe.picture.attached? %>
         <%= image_tag @recipe.picture, class: 'p-1 m-auto', style: 'height: 100px' %>
       <% end %>
-      </div>
-      <h3>Ingredients</h3>
-      <ul class="list-group">
-        <% @recipe.ingredients.each do |ing| %>
-          <li class="list-group-item">
-            <%= ing.name %>
-          </li>
-        <% end %>
-      </ul>
-      <h3>Description</h3>
-      <%== markdown(@recipe.body) %>
+    </div>
+    <h3>Description</h3>
+    <%== markdown(@recipe.body) %>
     </div>
   </div>
 </div>

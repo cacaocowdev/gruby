@@ -6,9 +6,7 @@ Rails.application.routes.draw do
   root "home#index"
   get 'transactions/statistics', to: 'finances#home', as: 'finances'
   resources :recipes
-  resources :ingredients
   resources :meals
   resources :transactions
-  get 'recipes/:id/add', to: 'recipes#add', as: 'add_to_recipe'
 
 end

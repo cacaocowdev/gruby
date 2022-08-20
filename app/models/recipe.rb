@@ -1,5 +1,4 @@
 class Recipe < ApplicationRecord
-    has_and_belongs_to_many :ingredients
     has_many :meals, dependent: :destroy
     validates :title, presence: true, uniqueness: true
     has_one_attached :picture
