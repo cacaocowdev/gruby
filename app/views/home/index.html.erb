@@ -77,13 +77,35 @@
       <h3>Todos</h3>
       <table class="table table-striped">
         <thead class="table-dark">
-          <th>Task</td>
-          <th>Due</td>
+          <th>Task</th>
+          <th>Due</th>
+          <th></th>
         </thead>
         <tbody>
-          <tr>
-            <td colspan="2" class="text-center fst-italic">No tasks</td>
-          </tr>
+          <% if @tasks.empty? %>
+            <tr>
+              <td colspan="3" class="text-center fst-italic">No tasks</td>
+            </tr>
+          <% else %>
+            <% @tasks.each do |task| %>
+              <tr
+                <%== 'class="table-danger"' if task.due < Time.now and not task.done %>
+                <%== 'class="table-warning"' if task.due.to_date == Date.today and not task.done %>
+              >
+                <td class="align-middle">
+                  <%= task.title%>
+                </td>
+                <td class="align-middle">
+                  <%= task.due.strftime("%H:%M %d.%m.%Y") %>
+                </td>
+                <td>
+                  <%= link_to(todos_path(:id => task.id), class: 'link-secondary text-center', 'data-bs-toggle': "tooltip", 'data-bs-placement': 'bottom', title: 'Show') do %>
+                    <i class="bi bi-eye"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
         </tbody>
       </table>
     </div>

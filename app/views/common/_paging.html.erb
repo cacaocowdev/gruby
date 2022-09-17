@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col">
+    <nav aria-label="Transaction paging">
+      <ul class="pagination">
+        <li class="page-item <%= if @page == 0 then 'disabled' end %>">
+          <%= link_to url.call(page: @page, size: @size), class: 'page-link', 'aria-label': 'Previous' do %>
+            <span aria-hidden="true">&laquo;</span>
+          <% end %>
+        </li>
+        <% @pagination.each do |p| %>
+          <li class="page-item <%= if p == @page+1 then 'active' end %>">
+            <% if p == '..' %>
+              <span class="page-link">..</span>
+            <% else %>
+              <%= link_to url.call(page: p, size: @size), class: 'page-link', 'aria-label': 'Previous' do %>
+                <%= p %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+        <li class="page-item <%= if @page == @pages-1 then 'disabled' end %>">
+          <%= link_to url.call(page: @page+2, size: @size), class: 'page-link', 'aria-label': 'Next' do %>
+            <span aria-hidden="true">&raquo;</span>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="col-auto">
+    <%= form_with method: :get, action: url.call, class: 'd-flex' do |f| %>
+      <%= f.select 'page', 1..@pages, { selected: @page+1 }, class: 'form-select' %>
+      <%= f.select 'size', [10, 20, 50, 100, 200], { selected: @size.to_s }, class: 'form-select' %>
+      <%= f.submit '', value: 'Go', name: '', class: 'btn btn-secondary'%>
+    <% end %>
+  </div>
+</div>

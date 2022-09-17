@@ -16,6 +16,9 @@ application.register("meal", MealController)
 import NewRecipeController from "./new_recipe_controller.js"
 application.register("new-recipe", NewRecipeController)
 
+import NewTodoController from "./new_todo_controller.js"
+application.register("new-todo", NewTodoController)
+
 import RecipeController from "./recipe_controller.js"
 application.register("recipe", RecipeController)
 
@@ -24,6 +27,9 @@ application.register("statistic-chart", StatisticChartController)
 
 import StopController from "./stop_controller.js"
 application.register("stop", StopController)
+
+import TodoController from "./todo_controller.js"
+application.register("todo", TodoController)
 
 import TransactionController from "./transaction_controller.js"
 application.register("transaction", TransactionController)

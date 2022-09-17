@@ -22,5 +22,7 @@ class HomeController < ApplicationController
         end
         @finances = Transaction.group(:category).where(date: dura).select(:category, 'SUM(amount) as amount').order('SUM(amount)');
         @total = Transaction.where(date: dura).select('SUM(amount) as amount').order('SUM(amount)').first;
+
+        @tasks = Todo.where(:done => false).limit(7).order(:due => :asc)
     end
 end

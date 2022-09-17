@@ -31,7 +31,7 @@
             <% @recipes.each do |recipe| %>
               <tr data-action="click->recipe#fetchRecipe" data-recipe-id-param="<%= recipe.id %>" data-recipe-url-param="<%= recipe_path(recipe, {inline: true}) %>">
                 <td class="align-middle">
-                  <%= recipe.title%>
+                  <%= recipe.title %>
                 </td>
                 <td>
                   <div class="row align-items-center">

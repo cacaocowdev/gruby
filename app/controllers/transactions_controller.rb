@@ -1,42 +1,12 @@
 class TransactionsController < ApplicationController
     def index
-        offset = 0
-        @page = 0
-        @size = 50
-        unless params[:size].nil?
-            @size = params[:size].to_i
-            @size = [@size, 200].min
-        end
-        unless params[:page].nil?
-            @page = params[:page].to_i - 1
-            offset = @page * @size
-        end
-
-        if @page < 0
-            @page = 0
-            redirect_to transactions_path(size: @size)
-            return
-        end
-
-        @pages = [Transaction.all.size / @size + [1, Transaction.all.size % @size].min, 1].max
-
-        if @page > 0 and @pages <= @page
+        paged = paging(Transaction.all.size, 50)
+        if not paged
             redirect_to transactions_path(size: @size, page: @pages)
             return
         end
 
-        @pagination
-        if @pages < 8
-            @pagination = 1..@pages
-        elsif @page < 4
-            @pagination = [1, 2, 3, 4, 5, '..', @pages]
-        elsif @page > @pages-4
-            @pagination = [1, '..', @pages-4, @pages-3, @pages-2, @pages-1, @pages]
-        else
-            @pagination = [1, '..', @page, @page+1, @page+2, '..', @pages]
-        end
-
-        @transactions = Transaction.order(:date => :desc).offset(offset).limit(@size)
+        @transactions = Transaction.order(:date => :desc).offset(@offset).limit(@size)
         @transaction = Transaction.new
         @uses = Transaction.select(:use).group(:use).to_a.map { |t| t.use }
         @categories = Transaction.select(:category).group(:category).to_a.map { |t| t.category }

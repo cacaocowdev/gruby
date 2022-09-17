@@ -1,0 +1,100 @@
+<% content_for :navbar do %>
+  <%= render "layouts/navbar", active: "todos"%>
+<% end %>
+
+<div class="px-2" data-controller="todo">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-8 col-12">
+        <div class="row py-2 align-items-center justify-content-around">
+          <div class="col">
+            <h1 class="py-2">ToDo List</h1>
+          </div>
+          <div class="col col-auto">
+            <%= link_to new_todo_path, class: 'btn btn-primary', 'data-bs-toggle': 'modal', 'data-bs-target': '#new-todo-modal', 'data-action': 'stop#preventDefault' do %>
+              <i class="bi bi-plus"></i> Add new Task
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-md-8 col-12">
+        <%= render 'common/paging', { :url => method(:todos_path) } %>
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Task</th>
+              <th scope="col">Due</th>
+              <th class="w-25" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @todos.each do |todo| %>
+              <tr
+                <%== 'class="table-danger"' if todo.due < Time.now and not todo.done %>
+                <%== 'class="table-warning"' if todo.due.to_date == Date.today and not todo.done %>
+                <%== 'class="text-decoration-line-through"' if todo.done %>
+                data-action="click->todo#fetchTask" data-todo-id-param="<%= todo.id %>"
+                data-todo-url-param="<%= todo_path(todo, {inline: true}) %>"
+              >
+                <td class="align-middle">
+                  <%= todo.title%>
+                </td>
+                <td class="align-middle">
+                  <%= todo.due.strftime("%H:%M %d.%m.%Y") %>
+                </td>
+                <td>
+                  <div class="row align-items-center justify-content-evenly">
+                    <div class="col-auto">
+                      <%= link_to(todos_path(:id => todo.id, :size => @size, :page => @page), class: 'link-secondary text-center', 'data-bs-toggle': "tooltip", 'data-bs-placement': 'bottom', title: 'Show', 'data-action': 'stop#stopPropagation') do %>
+                        <i class="bi bi-eye"></i>
+                      <% end %>
+                    </div>
+                    <div class="col-auto">
+                      <%= form_with method: :put, model: todo do |form| %>
+                        <%= form.hidden_field :done, value: !todo.done %>
+                          <button
+                            type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            data-controller="confirm" data-action="confirm#confirm" data-confirm-confirm-value="Mark task as done?"
+                          <% if todo.done %>
+                            class="btn btn-link link-success" title="Undo"
+                          >
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                          <% else %>
+                            class="btn btn-link link-success" title="Done"
+                          >
+                            <i class="bi bi-check"></i>
+                          <% end %>
+                        </button>
+                      <% end %>
+                    </div>
+                    <div class="col-auto">
+                      <%= form_with method: :delete, url: todo_path(todo) do |form| %>
+                        <button
+                          type="submit" class="btn btn-link link-danger" 
+                          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"
+                          data-controller="confirm" data-action="confirm#confirm" data-confirm-confirm-value="Delete task?"
+                        >
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= render 'common/paging', { :url => method(:todos_path) } %>
+      </div>
+      <div class="col col-md-4" data-todo-target="task">
+        <% if not @task.nil? %>
+          <%= render 'show-inline' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render  'form-dialog', todo: @new_todo %>

@@ -10,7 +10,7 @@
           <%= link_to "Recipes", recipes_path, class: "nav-link" + (if local_assigns[:active] == "recipes" then " active" else "" end)%>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Todos</a>
+          <%= link_to "Todos", todos_path, class: "nav-link" + (if local_assigns[:active] == "todos" then " active" else "" end)%>
         </li>
         <li class="nav-item">
           <%= link_to "Finances", transactions_path, class: "nav-link" + (if local_assigns[:active] == "finances" then " active" else "" end) %>
