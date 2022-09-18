@@ -1,4 +1,4 @@
-FROM ruby:3.1.0-alpine as builder
+FROM ruby:3.1.2-alpine as builder
 
 WORKDIR /usr/src/app
 
@@ -10,7 +10,7 @@ RUN apk add build-base \
       postgresql-dev \
     && mkdir -p /usr/src/app \
     && chown 999:999 /usr/src/app \
-    && gem install bundler --version 2.3.6
+    && gem install bundler --version 2.3.19
 
 USER 999:999
 
@@ -30,10 +30,10 @@ COPY --chown=999:999 ./package.json /usr/src/app
 
 RUN yarn install --pure-lockfile
 
-COPY --chown=999:999 . /usr/src/app
+COPY --chown=999:999 . /usr/src/app/
 RUN bundle exec rake assets:precompile
 
-FROM ruby:3.1.0-alpine
+FROM ruby:3.1.2-alpine
 COPY --from=builder --chown=999:999 /usr/src/app /usr/src/app
 
 RUN apk add tzdata postgresql-client

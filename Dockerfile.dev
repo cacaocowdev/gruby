@@ -1,4 +1,4 @@
-FROM ruby:3.1.0
+FROM ruby:3.1.2
 
 WORKDIR /gruby
 
@@ -8,6 +8,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
   && apt update \
   && apt install -y sqlite3 postgresql-client nodejs \
   && npm install --global yarn \  
-  && gem install bundler --version 2.3.6 \
+  && gem install bundler --version 2.3.19 \
   && gem install foreman \
   && bundle install
