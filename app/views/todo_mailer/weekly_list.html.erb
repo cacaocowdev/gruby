@@ -1,0 +1,59 @@
+<style>
+body {
+    font-family: system-ui;
+}
+table {
+  border-spacing: 0px;
+  margin-bottom: 1rem;
+  color: #212529;
+  vertical-align: top;
+  width: 90%;
+  font-size: 1rem;
+}
+
+table thead {
+  color: #fff;
+  background-color: #212529;
+}
+
+tr {
+    line-height: 2rem;
+}
+
+tr * {
+  text-align: start;
+  padding-left: 0.5rem;
+}
+</style>
+<h2>Your next week</h2>
+
+<h3>
+Hey gruby-User,
+</h3>
+<p>
+You have a few things planned in the next week
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Task</th>
+      <th scope="col">Due</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.title %></td>
+        <td><%= task.due.strftime("%H:%M %d.%m.%Y") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+Have a nice week!
+</p>
+<p>
+Beep boop I'm a robot &#129302; <%# robot emoji %>
+</p>

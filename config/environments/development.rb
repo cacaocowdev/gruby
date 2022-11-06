@@ -61,6 +61,12 @@ Rails.application.configure do
 
   # Devise mailer
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.action_mailer.delivery_method = :file
+  config.action_mailer.file_settings = { :location => './mails/'}
+
+  config.action_mailer.default_options = { :from => 'no-reply@gruby.app'}
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
