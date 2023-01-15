@@ -21,7 +21,7 @@
   <div class="modal-footer">
     <div class="row justify-content-end pt-2">
       <div class="col-auto">
-        <%= link_to 'Cancel', (if local_assigns[:todo].id.nil? then todos_path else todo_path(local_assigns[:todo]) end), 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'data-action': 'stop#preventDefault' %>
+        <%= link_to 'Cancel', (if local_assigns[:todo].id.nil? then todos_path else todo_path(local_assigns[:todo]) end), 'class': 'btn btn-outline-secondary', 'data-bs-dismiss': 'modal', 'data-action': 'stop#preventDefault' %>
         <%= form.submit class: 'btn btn-primary', value: (if local_assigns[:todo].id.nil? then 'Create' else 'Save' end) %>
       </div>
     </div>

@@ -17,7 +17,7 @@
   <div class="modal-footer">
     <div class="row justify-content-end pt-2">
       <div class="col-auto">
-        <%= link_to 'Cancel', meals_path, 'class': 'btn btn-secondary', 'data-bs-dismiss': 'modal', 'aria-label': 'Close', 'data-controller': 'stop', 'data-action': 'stop#preventDefault' %>
+        <%= link_to 'Cancel', meals_path, 'class': 'btn btn-outline-secondary', 'data-bs-dismiss': 'modal', 'aria-label': 'Close', 'data-controller': 'stop', 'data-action': 'stop#preventDefault' %>
         <%= form.submit value: (if @meal.id.nil? then 'Create' else 'Save' end), class: 'btn btn-primary' %>
       </div>
     </div>
