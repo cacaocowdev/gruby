@@ -1,21 +1,21 @@
 <div class="card">
   <div class="card-body">
-    <div class="card-title row justify-content-around">
-    <div class="col">
-      <%= @recipe.title %>
+    <div class="card-title row justify-content-around border-bottom">
+      <div class="col">
+        <span class="text-center"><%= @recipe.title %></span>
       </div>
       <div class="col text-end">
-      <%= link_to "Show", recipe_path(@recipe), class: "btn btn-primary" %>
+        <%= link_to "Show", recipe_path(@recipe), class: "btn btn-primary mb-2" %>
       </div>
     </div>
-    <div class="card-text">
-    <div class="w-100">
-      <% if @recipe.picture.attached? %>
-        <%= image_tag @recipe.picture, class: 'p-1 m-auto', style: 'height: 100px' %>
-      <% end %>
-    </div>
-    <h3>Description</h3>
-    <%== markdown(@recipe.body) %>
+    <div class="card-text recipe-overflow-body-card">
+      <div class="w-100">
+        <% if @recipe.picture.attached? %>
+          <%= image_tag @recipe.picture, class: 'p-1 m-auto', style: 'height: 100px' %>
+        <% end %>
+      </div>
+      <h3>Description</h3>
+      <%== markdown(@recipe.body) %>
     </div>
   </div>
 </div>

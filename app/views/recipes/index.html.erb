@@ -58,10 +58,12 @@
           </tbody>
         </table>
       </div>
-      <div class="col col-md-4" data-recipe-target="recipe">
-        <% if not @recipe.nil? %>
-          <%= render 'show-inline' %>
-        <% end %>
+      <div class="col col-md-4">
+        <div class="recipe-sticky-card" data-recipe-target="recipe">
+          <% if not @recipe.nil? %>
+            <%= render 'show-inline' %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

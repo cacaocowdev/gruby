@@ -40,6 +40,16 @@ $secondary: rgb(8, 121, 144);
     }
 }
 
+.recipe-sticky-card {
+    position: sticky;
+     top: 10px;
+}
+
+.recipe-overflow-body-card {
+    max-height: 70vh;
+    overflow-y: scroll;
+}
+
 @include media-breakpoint-only("md") {
     .mp-card-group .col .mp-card {
         border-right-width: 0px;
