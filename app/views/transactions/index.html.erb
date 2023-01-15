@@ -58,10 +58,14 @@
           </ul>
         </nav>
       </div>
-      <div class="col-auto">
+      <div class="col-auto pb-2">
         <%= form_with method: :get, action: transactions_path, class: 'd-flex' do |f| %>
+          <div class="input-group pe-2">
+            <%= f.text_field 'filter', value: @filter, class: 'form-control', placeholder: 'Search...' %>
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+          </div>
           <%= f.select 'page', 1..@pages, { selected: @page+1 }, class: 'form-select' %>
-          <%= f.select 'size', [10, 20, 50, 100, 200], { selected: @size.to_s }, class: 'form-select' %>
+          <%= f.select 'size', [10, 20, 50, 100, 200], { selected: @size.to_s }, class: 'form-select mx-2' %>
           <%= f.submit '', value: 'Go', name: '', class: 'btn btn-secondary'%>
         <% end %>
       </div>

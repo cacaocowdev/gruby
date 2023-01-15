@@ -1,12 +1,19 @@
 class TransactionsController < ApplicationController
     def index
-        paged = paging(Transaction.all.size, 50)
+        if params[:filter].nil?
+            @transaction = Transaction.all
+        else
+            @transaction = Transaction.where('category LIKE ?', '%' + Transaction.sanitize_sql_like(params[:filter]) + '%')
+            .or(Transaction.where('use LIKE ?', '%' + Transaction.sanitize_sql_like(params[:filter]) + '%'))
+            @filter = params[:filter]
+        end
+        paged = paging(@transaction.size, 50)
         if not paged
-            redirect_to transactions_path(size: @size, page: @pages)
+            redirect_to transactions_path(size: @size, page: @pages, filter: @filter)
             return
         end
 
-        @transactions = Transaction.order(:date => :desc).offset(@offset).limit(@size)
+        @transactions = @transaction.order(:date => :desc).offset(@offset).limit(@size)
         @transaction = Transaction.new
         @uses = Transaction.select(:use).group(:use).to_a.map { |t| t.use }
         @categories = Transaction.select(:category).group(:category).to_a.map { |t| t.category }
