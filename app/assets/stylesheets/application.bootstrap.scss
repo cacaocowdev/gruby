@@ -2,6 +2,8 @@ $enable-rounded: false;
 $enable-negative-margins: true;
 $primary: #3d0a91;
 $secondary: rgb(8, 121, 144);
+$pagination-active-bg: $secondary;
+$pagination-color: $secondary;
 
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
