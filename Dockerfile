@@ -31,7 +31,9 @@ COPY --chown=999:999 ./package.json /usr/src/app
 RUN yarn install --pure-lockfile
 
 COPY --chown=999:999 . /usr/src/app/
-RUN bundle exec rake assets:precompile
+RUN rm config/credentials.yml.enc && \
+    EDITOR="mate" bin/rails credentials:edit && \
+    bundle exec rake assets:precompile
 
 FROM ruby:3.1.2-alpine
 COPY --from=builder --chown=999:999 /usr/src/app /usr/src/app
