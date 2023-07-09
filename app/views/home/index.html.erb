@@ -129,7 +129,10 @@
       <table class="table table-striped">
         <thead class="table-dark">
           <th>Category</th>
-          <th>Value</th>
+          <th class="text-end">Current</th>
+          <% unless @finances_selected == 'all' %>
+            <th class="text-end">Last</th>
+          <% end %>
         </thead>
         <tbody>
           <% if @total.amount %>
@@ -141,11 +144,16 @@
                 <td class="text-end">
                   <%= f.amount_fmt %> €
                 </td>
+                <% unless @finances_selected == 'all' %>
+                  <td class="text-end fst-italic">
+                    <%= if f.id.nil? then '0.00' else '%.02f' % (f.id / 100.0)  end%> €
+                  </td>
+                <% end %>
               </tr>
             <% end %>
           <% else %>
             <tr>
-              <td colspan="2" class="text-center fst-italic">No Transactions</td>
+              <td colspan="3" class="text-center fst-italic">No Transactions</td>
             </tr>
           <% end %>
         </tbody>
@@ -153,6 +161,9 @@
           <tr>
             <td><b>Total:</b></td>
             <td class="text-end"><b><%= @total.amount_fmt %> €</b></td>
+            <% unless @finances_selected == 'all' %>
+              <td class="text-end"><b><%= @oldTotal.amount_fmt %> €</b></td>
+            <% end %>
           </tr>
         </tfoot>
       </table>
