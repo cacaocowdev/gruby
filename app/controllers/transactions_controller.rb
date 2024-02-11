@@ -30,7 +30,7 @@ class TransactionsController < ApplicationController
     end
     def create
         t_params = transaction_params
-        amount = (t_params[:amount].to_f * 100).to_i.abs
+        amount = (BigDecimal(t_params[:amount]) * 100).to_i.abs
         if !ActiveRecord::Type::Boolean::new.cast(t_params[:income])
             amount = -amount
         end
