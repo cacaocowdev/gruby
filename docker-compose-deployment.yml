@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  gruby:
+    image: "cacaocowdev/gruby:0.2.2"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_MASTER_KEY: "PjZf82D2u7dFgHzzx7xABBT1r9TCPSsD"
+      SECRET_KEY_BASE: "PjZf82D2u7dFgHzzx7xABBT1r9TCPSsD"
+    volumes:
+      - "gruby-data-prod:/usr/src/app/storage"
+  db:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_USER: "gruby"
+      POSTGRES_PASSWORD: "gruby"
+      PGDATA: "/app/data/pgdata"
+    volumes:
+      - "db-data-prod:/app/data/pgdata"
+volumes:
+  db-data-prod:
+  gruby-data-prod:

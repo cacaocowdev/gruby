@@ -6,7 +6,7 @@
 #
 default: &default
   adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
   timeout: 5000
 
 pgsql: &pgsql
@@ -20,9 +20,9 @@ pgsql: &pgsql
   password: test
 
 development:
-  <<: *pgsql
-#  <<: *default
-#  database: db/development.sqlite3
+#  <<: *pgsql
+  <<: *default
+  database: db/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -32,11 +32,11 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: postgresql
+  adapter: <%= ENV.fetch('GRUBY_DB_ADAPTER') { 'postgresql' } %>
   encoding: unicode
-  database: gruby
-  pool: 5
-  host: db
-  port: 5432
-  username: gruby
-  password: <redacted>
+  database: <%= ENV.fetch('GRUBY_DB_NAME') { 'gruby' } %>
+  pool: <%= ENV.fetch('GRUBY_DB_POOL_SIZE') { 5 } %>
+  host: <%= ENV.fetch('GRUBY_DB_HOST') { 'db' } %>
+  port: <%= ENV.fetch('GRUBY_DB_PORT') { 5432 } %>
+  username: <%= ENV.fetch('GRUBY_DB_USERNAME') { 'gruby' } %>
+  password: <%= ENV.fetch('GRUBY_DB_PASSWORD') { 'gruby' } %>

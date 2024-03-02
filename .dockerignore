@@ -1,0 +1,17 @@
+tmp
+yarn-error.log
+test
+storage
+Procfile.dev
+log
+docker-compose.yml
+Dockerfile
+Dockerfile.dev
+db/development.sqlite3
+db/test.sqltite3
+node_modules
+.git
+.gitignore
+.gitattributes
+.vscode
+.dockerignore

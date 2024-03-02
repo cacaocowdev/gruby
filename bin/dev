@@ -6,4 +6,6 @@ then
   gem install foreman
 fi
 
+rm ./tmp/pids/*
+
 foreman start -f Procfile.dev
