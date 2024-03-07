@@ -32,6 +32,11 @@
               <tr data-action="click->recipe#fetchRecipe" data-recipe-id-param="<%= recipe.id %>" data-recipe-url-param="<%= recipe_path(recipe, {inline: true}) %>">
                 <td class="align-middle">
                   <%= recipe.title %>
+                  <small class="text-body-secondary">
+                    <em>
+                      (<%= unless recipe.last_cooked.nil? then recipe.last_cooked else '-' end %>|<%= unless recipe.next_cook.nil? then recipe.next_cook else '-' end %>)
+                    </em>
+                  </small>
                 </td>
                 <td>
                   <div class="row align-items-center">

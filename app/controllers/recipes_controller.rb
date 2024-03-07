@@ -1,6 +1,12 @@
 class RecipesController < ApplicationController
     def index
-        @recipes = Recipe.all.order("LOWER(title)")
+
+        recipes = Recipe.all.order("LOWER(title)")
+
+        last_cooked = Meal.group(:recipe_id).where(day: ...Date.today).select("MAX(day) as last_cooked", :recipe_id)
+        next_cook = Meal.group(:recipe_id).where(day: Date.today...).select("MIN(day) as next_cook", :recipe_id)
+
+        @recipes = Recipe.find_by_sql("SELECT * FROM (SELECT * FROM (" + recipes.to_sql + ") as r FULL OUTER JOIN (" + last_cooked.to_sql + ") as m1 ON r.id = m1.recipe_id) as r2 FULL OUTER JOIN (" + next_cook.to_sql + ") as m2 ON r2.id = m2.recipe_id");
         if not params[:id].nil?
             @recipe = Recipe.find(params[:id])
         end
