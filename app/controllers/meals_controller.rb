@@ -35,7 +35,7 @@ class MealsController < ApplicationController
         @meal.recipe = Recipe.where(title: meal_params[:recipe]).first
 
         if @meal.save
-            redirect_to meals_path
+            redirect_to meals_path(:start => start_of_week(@meal.day))
         else
             render status: :unprocessable_entity
         end
