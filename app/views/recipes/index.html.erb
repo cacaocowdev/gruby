@@ -46,6 +46,11 @@
                       <% end %>
                     </div>
                     <div class="col col-auto">
+                      <%= link_to new_meal_path(recipe: recipe.id), 'data-bs-toggle': "tooltip", 'data-bs-placement': "bottom", title: 'Add meal','data-action': 'recipe#loadForm' do %>
+                        <i class="bi bi-plus-circle"></i>
+                      <% end %>
+                    </div>
+                    <div class="col col-auto">
                       <%= form_with method: :delete, url: recipe_path(recipe) do |from| %>
                         <button
                           type="submit" class="btn btn-link link-danger" 
@@ -68,6 +73,18 @@
           <% if not @recipe.nil? %>
             <%= render 'show-inline' %>
           <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="meal-dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">New Meal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div data-recipe-target="dialog">
+          </div>
         </div>
       </div>
     </div>

@@ -22,6 +22,9 @@ class MealsController < ApplicationController
         if not params[:day].nil?
             @meal.day = Date.iso8601(params[:day])
         end
+        if not params[:recipe].nil?
+            @meal.recipe = Recipe.find(params[:recipe])
+        end
 
         if inline?
             render '_form', layout: false
